@@ -1,0 +1,1 @@
+/home/bytes/.config/zsh/zshrc

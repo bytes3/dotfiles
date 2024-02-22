@@ -1,0 +1,7 @@
+export ZDOTDIR="$HOME/.config/zsh"
+
+. "$ZDOTDIR/antidote_init"
+. "$ZDOTDIR/aliases"
+. "$ZDOTDIR/exports"
+
+neofetch

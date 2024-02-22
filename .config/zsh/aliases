@@ -1,0 +1,64 @@
+# Pacman
+alias syu="sudo pacman -Syu" \
+      Rs="sudo pacman -Rs" \
+      S="sudo pacman -S" \
+      F="pacman -F" \
+      Ss="pacman -Ss" \
+      F="pacman -F" \
+      Ql="pacman -Ql" \
+      Qi="pacman -Qi"
+      pacdiff="pacdiff -s"
+
+# Systemd
+alias sd="sudo systemctl" \
+      sdu="systemctl --user" \
+      reboot="systemctl reboot" \
+      poweroff="systemctl poweroff"
+
+# Programs
+alias duch="du -chd 1" \
+      g="rg --hidden --no-ignore" \
+      fd="fd --hidden --no-ignore"
+
+# TUI
+alias top="btop"
+
+# Others
+alias e="echo" \
+      g="grep --color=always" \
+      lah="ls -lah" \
+      la="ls -la" \
+      rmf="rm -fr" \
+      clear="clear -x && neofetch" \
+      chx="chmod +x" \
+      sudo="sudo -v; sudo" \
+      dfc="df -h . | g -A2 Avail" \
+      re="repeat"
+
+# Tar
+alias atar="tar -acvf" \
+      tf="tar -tf"
+
+# vim
+alias v="nvim" \
+      sv="sudoedit" \
+      vw="v -c ':VimwikiIndex'" \
+      vd="v -c 'VimwikiMakeDiaryNote'"
+      
+# SSH
+alias pi="ssh dietpi@pi" \
+      pi_sftp="sftp dietpi@pi"
+
+# git
+alias gst="git status" \
+      gcim="git commit -am" \
+      gadd="git add -f" \
+      glog="git log" \
+      gsfp="git stash ; git fetch && git pull"
+
+# Dotfile manager
+alias dot="yadm"
+
+# shell
+alias rr=". ~/.zshrc"
+
