@@ -1,4 +1,5 @@
-# comments are supported like this
+jeffreytse/zsh-vi-mode.git
+MichaelAquilina/zsh-you-should-use
 zsh-users/zsh-completions
 
 olets/zsh-abbr    kind:defer

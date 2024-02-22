@@ -1,7 +1,20 @@
+# Plugins list: 
+# ~/.config/zsh/.zsh_plugins.txt
+
 export ZDOTDIR="$HOME/.config/zsh"
 
 . "$ZDOTDIR/antidote_init"
 . "$ZDOTDIR/aliases"
 . "$ZDOTDIR/exports"
+. "$ZDOTDIR/functions"
+
+HISTFILE="$HOME/.cache/.histfile"
+HISTSIZE=30000
+SAVEHIST=30000
+
+unsetopt beep
+unsetopt HIST_VERIFY # Enabled by zsh-utils
+
+prompt belak
 
 neofetch

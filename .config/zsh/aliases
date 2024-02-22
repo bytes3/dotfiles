@@ -1,3 +1,6 @@
+# Dirs
+alias cdd="cd $HOME/Downloads/"
+
 # Pacman
 alias syu="sudo pacman -Syu" \
       Rs="sudo pacman -Rs" \
