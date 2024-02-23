@@ -17,4 +17,6 @@ unsetopt HIST_VERIFY # Enabled by zsh-utils
 
 prompt belak
 
+eval "$(zoxide init --cmd cd zsh)"
+
 neofetch
