@@ -1,3 +1,41 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
-paru -S - < "$HOME/.pkglist.paru"
+if [ -n $(command -v pacman) ]; then
+	if [ -z $(command -v paru) ]; then
+		cd $(mktemp --directory) && \
+		clone https://aur.archlinux.org/paru-bin.git && \
+		makepkg -si --noconfirm
+	fi
+
+	paru -S - <"$HOME/.pkglist.paru"
+fi
+
+# Tool version control
+. /opt/asdf-vm/asdf.sh
+
+plugins=(
+  nodejs
+)
+
+for plugin in $plugins; do
+  asdf plugin add "$plugin"
+  asdf install "$plugin" latest
+  asdf global "$plugin" latest
+done
+
+
+cat << EOF
+⊂_ヽ
+　 ＼＼ Λ＿Λ
+　　 ＼( ˇωˇ)
+　　  /　⌒
+　　 /  へ＼
+　  / 　/ ＼＼
+   ﾚ　ノ　　 ヽ_つ
+　 /　/  You can now type
+　(　(ヽ       >zsh
+　|　|、＼
+　| 丿 ＼＼ 
+　| |　　)/
+ノ )　　 Lﾉ
+EOF
