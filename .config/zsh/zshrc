@@ -24,3 +24,5 @@ eval "$(zoxide init --cmd cd zsh)"
 . /opt/asdf-vm/asdf.sh
 
 neofetch
+
+export ZDOTDIR="$HOME"
