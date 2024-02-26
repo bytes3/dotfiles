@@ -1,5 +1,6 @@
 # Plugins list: 
 # ~/.config/zsh/.zsh_plugins.txt
+#
 
 export ZDOTDIR="$HOME/.config/zsh"
 
@@ -23,6 +24,9 @@ eval "$(zoxide init --cmd cd zsh)"
 # Tool version control
 . /opt/asdf-vm/asdf.sh
 
+# This is a temporary fix 
+# tmux will load zsh config from $ZDOTDIR/.zshrc (which dose not exists)
+export ZDOTDIR="$HOME"
+
 neofetch
 
-export ZDOTDIR="$HOME"
