@@ -1,14 +1,13 @@
-jeffreytse/zsh-vi-mode.git
-MichaelAquilina/zsh-you-should-use
 zsh-users/zsh-completions
-
 olets/zsh-abbr    kind:defer
+MichaelAquilina/zsh-you-should-use
 
-# or lighter-weight ones like zsh-utils
-belak/zsh-utils path:editor
+# bleak
 belak/zsh-utils path:prompt
-belak/zsh-utils path:utility
 belak/zsh-utils path:completion
+
+# Oh-my-zsh plugins
+ohmyzsh/ohmyzsh path:plugins/vi-mode
 
 # popular fish-like plugins
 zsh-users/zsh-autosuggestions
