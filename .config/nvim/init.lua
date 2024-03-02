@@ -32,7 +32,7 @@ vim.opt.signcolumn = "yes"
 
 -- Decrease update time
 vim.opt.updatetime = 250
-vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 400
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -81,7 +81,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
 	callback = function()
-		vim.highlight.on_yank({ timeout_ms = 1300 })
+		vim.highlight.on_yank({ timeout = 300 })
 	end,
 })
 
@@ -120,7 +120,19 @@ require("lazy").setup({
 	--    require('Comment').setup({})
 
 	-- "gc" to comment visual regions/lines
-	{ "numToStr/Comment.nvim", opts = {} },
+	{
+		"numToStr/Comment.nvim",
+		opts = {
+			extra = {
+				---Add comment on the line above
+				above = "gcO",
+				---Add comment on the line below
+				below = "gco",
+				---Add comment at the end of line
+				eol = "gcA",
+			},
+		},
+	},
 
 	-- Here is a more advanced example where we pass configuration
 	-- options to `gitsigns.nvim`. This is equivalent to the following lua:
@@ -130,13 +142,47 @@ require("lazy").setup({
 	{ -- Adds git related signs to the gutter, as well as utilities for managing changes
 		"lewis6991/gitsigns.nvim",
 		opts = {
-			signs = {
-				add = { text = "+" },
-				change = { text = "~" },
-				delete = { text = "_" },
-				topdelete = { text = "‾" },
-				changedelete = { text = "~" },
+			current_line_blame = true,
+			current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
+			current_line_blame_opts = {
+				virt_text = true,
+				delay = 200,
+				virt_txt_priority = 100,
 			},
+			on_attach = function()
+				vim.keymap.set(
+					"n",
+					"<leader>hS",
+					'<cmd>lua require"gitsigns".stage_hunk()<CR>',
+					{ desc = "[S]tage current hunk" }
+				)
+				vim.keymap.set(
+					"n",
+					"<leader>hr",
+					'<cmd>lua require"gitsigns".reset_buffer()<CR>',
+					{ desc = "[r]eset current hunk" }
+				)
+				vim.keymap.set(
+					"n",
+					"<leader>hp",
+					'<cmd>lua require"gitsigns".preview_hunk()<CR>',
+					{ desc = "[p]review hunk" }
+				)
+				vim.keymap.set(
+					"n",
+					"<leader>[",
+					'<cmd>lua require"gitsigns".prev_hunk()<CR>',
+					{ desc = "Previous hunk" }
+				)
+				vim.keymap.set(
+					"n",
+					"<leader>hb",
+					'<cmd>lua require"gitsigns".blame_line({ full = true })<CR>',
+					{ desc = "[b]lame line" }
+				)
+				vim.keymap.set("n", "<leader>]", '<cmd>lua require"gitsigns".next_hunk()<CR>', { desc = "Next hunk" })
+			end,
+			yadm = { enable = true },
 		},
 	},
 
