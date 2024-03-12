@@ -3,5 +3,8 @@ fd
 ripgrep
 zoxide
 neofetch
+clang 
+make
+tmux
 asdf-vm
 zsh-antidote

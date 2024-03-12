@@ -23,6 +23,8 @@ for plugin in $plugins; do
   asdf global "$plugin" latest
 done
 
+mkdir ~/.config/tmux/plugins
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 
 cat << EOF
 ⊂_ヽ
