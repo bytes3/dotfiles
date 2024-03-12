@@ -3,6 +3,7 @@
         "undefined-global"
     ],
     "diagnostics.globals": [
-        "find_files_absolute"
+        "find_files_absolute",
+        "toggle_diagnostic_drawing"
     ]
 }
