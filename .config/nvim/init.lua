@@ -55,17 +55,22 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
--- [[ Basic Keymaps ]]
---  See `:help vim.keymap.set()`
-
 -- clear on pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+local is_disabled = false
+function toggle_diagnostic_drawing()
+  vim.diagnostic.config { virtual_text = is_disabled, underline = is_disabled }
+
+  is_disabled = not is_disabled
+end
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>td', toggle_diagnostic_drawing, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- TIP: Disable arrow keys in normal mode
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -74,7 +79,7 @@ vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
-vim.keymap.set('n', '<leader>Y', [["+Y]])
+vim.keymap.set({ 'n', 'v' }, '<leader>Y', [["+Y]])
 
 -- [[ Basic Autocommands ]]
 --  See :help lua-guide-autocommands
@@ -157,8 +162,8 @@ require('lazy').setup({
         vim.keymap.set('n', '<leader>hs', '<cmd>lua require"gitsigns".stage_hunk()<CR>', { desc = '[s]tage current hunk' })
         vim.keymap.set('n', '<leader>hr', '<cmd>lua require"gitsigns".reset_hunk()<CR>', { desc = '[r]eset current hunk' })
         vim.keymap.set('n', '<leader>hp', '<cmd>lua require"gitsigns".preview_hunk()<CR>', { desc = '[p]review hunk' })
-        vim.keymap.set('n', '<leader>[', '<cmd>lua require"gitsigns".prev_hunk({preview = true})<CR>', { desc = 'Previous hunk' })
-        vim.keymap.set('n', '<leader>]', '<cmd>lua require"gitsigns".next_hunk({preview = true})<CR>', { desc = 'Next hunk' })
+        vim.keymap.set('n', '<leader>[', '<cmd>lua require"gitsigns".prev_hunk()<CR>', { desc = 'Previous hunk' })
+        vim.keymap.set('n', '<leader>]', '<cmd>lua require"gitsigns".next_hunk()<CR>', { desc = 'Next hunk' })
         vim.keymap.set('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line({ full = true })<CR>', { desc = '[b]lame line' })
       end,
       yadm = { enable = true },
@@ -647,6 +652,9 @@ require('lazy').setup({
           { name = 'path' },
           { name = 'codespell' },
         },
+        experimental = {
+          ghost_text = true,
+        },
       }
     end,
   },
@@ -669,7 +677,7 @@ require('lazy').setup({
   },
 
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  { 'folke/todo-comments.nvim', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = true } },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -709,19 +717,9 @@ require('lazy').setup({
 
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc' },
-        -- Autoinstall languages that are not installed
-        auto_install = true,
         highlight = { enable = true },
         indent = { enable = true },
       }
-
-      -- There are additional nvim-treesitter modules that you can use to interact
-      -- with nvim-treesitter. You should go explore a few and see what interests you:
-      --
-      --    - Incremental selection: Included, see :help nvim-treesitter-incremental-selection-mod
-      --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-      --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
   },
 
@@ -734,15 +732,14 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.debug',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information see: :help lazy.nvim-lazy.nvim-structuring-your-plugins
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
