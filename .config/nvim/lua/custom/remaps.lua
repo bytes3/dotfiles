@@ -1,11 +1,14 @@
 -- clear on pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
-local is_disabled = false
+local is_diagnostic_drawing_disabled = false
 function toggle_diagnostic_drawing()
-  vim.diagnostic.config { virtual_text = is_disabled, underline = is_disabled }
+  vim.diagnostic.config {
+    virtual_text = is_diagnostic_drawing_disabled,
+    underline = is_diagnostic_drawing_disabled,
+  }
 
-  is_disabled = not is_disabled
+  is_diagnostic_drawing_disabled = not is_diagnostic_drawing_disabled
 end
 
 -- Diagnostic keymaps
@@ -15,7 +18,6 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagn
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('n', '<leader>td', toggle_diagnostic_drawing, { desc = 'Open diagnostic [Q]uickfix list' })
 
--- TIP: Disable arrow keys in normal mode
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
@@ -33,3 +35,12 @@ vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
+
+vim.keymap.set('n', '<leader>S', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+-- open new project
+vim.keymap.set('n', '<C-f>', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
+
+-- don't save into register
+vim.keymap.set({ 'n', 'v' }, '<leader>d', [["_d]])
+vim.keymap.set('x', '<leader>p', [["_dP]])

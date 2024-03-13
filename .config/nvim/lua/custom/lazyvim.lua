@@ -34,8 +34,8 @@ require('lazy').setup({
         vim.keymap.set('n', '<leader>hs', '<cmd>lua require"gitsigns".stage_hunk()<CR>', { desc = '[s]tage current hunk' })
         vim.keymap.set('n', '<leader>hr', '<cmd>lua require"gitsigns".reset_hunk()<CR>', { desc = '[r]eset current hunk' })
         vim.keymap.set('n', '<leader>hp', '<cmd>lua require"gitsigns".preview_hunk()<CR>', { desc = '[p]review hunk' })
-        vim.keymap.set('n', '<leader>[', '<cmd>lua require"gitsigns".prev_hunk()<CR>', { desc = 'Previous hunk' })
-        vim.keymap.set('n', '<leader>]', '<cmd>lua require"gitsigns".next_hunk()<CR>', { desc = 'Next hunk' })
+        vim.keymap.set('n', '<leader>[', '<cmd>lua require"gitsigns".prev_hunk()<CR>', { desc = '[p]revious hunk' })
+        vim.keymap.set('n', '<leader>]', '<cmd>lua require"gitsigns".next_hunk()<CR>', { desc = '[n]ext hunk' })
         vim.keymap.set('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line({ full = true })<CR>', { desc = '[b]lame line' })
       end,
       yadm = { enable = true },
