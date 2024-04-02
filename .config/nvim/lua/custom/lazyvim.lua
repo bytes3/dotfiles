@@ -313,7 +313,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
+        tsserver = { enabled = false },
 
         lua_ls = {
           -- cmd = {...},
@@ -334,7 +334,7 @@ require('lazy').setup({
                 -- library = { vim.env.VIMRUNTIME },
               },
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
+              diagnostics = { disable = { 'missing-fields' } },
             },
           },
         },
@@ -353,23 +353,29 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
-        'tsserver',
+        -- 'tsserver',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-
-      require('typescript-tools').setup {
-        capabilities = capabilities,
-        settings = {
-          expose_as_code_action = 'all',
-          complete_function_calls = true,
-          include_completions_with_insert_text = true,
-        },
-      }
 
       require('mason-lspconfig').setup {
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
+
+            if server_name == 'tsserver' then
+              -- TODO: move this to the servers table
+              require('typescript-tools').setup {
+                capabilities = capabilities,
+                settings = {
+                  expose_as_code_action = 'all',
+                  complete_function_calls = true,
+                  include_completions_with_insert_text = true,
+                },
+              }
+
+              return
+            end
+
             require('lspconfig')[server_name].setup {
               cmd = server.cmd,
               settings = server.settings,
@@ -404,7 +410,7 @@ require('lazy').setup({
         -- Use the "*" filetype to run formatters on all filetypes.
         javascript = { { 'prettier' } },
         typescript = { { 'prettier' } },
-        ['*'] = { 'codespell' },
+        -- ['*'] = { 'codespell' },
         ['_'] = { 'trim_whitespace' },
       },
     },
@@ -500,7 +506,7 @@ require('lazy').setup({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
-          { name = 'codespell' },
+          -- { name = 'codespell' },
         },
         experimental = {
           ghost_text = true,
@@ -553,6 +559,7 @@ require('lazy').setup({
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
       require('mini.statusline').setup()
+      require('mini.pairs').setup()
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
