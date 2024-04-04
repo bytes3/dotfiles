@@ -127,16 +127,16 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sh', builtin.command_history, { desc = '[s]earch commands [h]istory' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[s]earch [k]eymaps' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[s]earch [s]elect Telescope' })
-      vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-      vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-      vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-      vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-      vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = '[F]ind existing buffers' })
+      vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[s]earch current [w]ord' })
+      vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[s]earch by [g]rep' })
+      vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[s]earch [d]iagnostics' })
+      vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[s]earch [r]esume' })
+      vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[s]earch Recent Files ("." for repeat)' })
+      vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = '[f]ind existing buffers' })
       vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = '[ ] Search Files' })
       vim.keymap.set('n', '<leader>sf', function()
         builtin.find_files { hidden = true, no_ignore = true }
-      end, { desc = '[S]earch [F]iles With Hidden & Ignored' })
+      end, { desc = '[s]earch [f]iles With Hidden & Ignored' })
       -- TODO: Add history command
 
       -- Slightly advanced example of overriding default behavior and theme
@@ -352,8 +352,9 @@ require('lazy').setup({
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format lua code
-        -- 'tsserver',
+        'stylua',
+        'prettier',
+        'tsserver',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
