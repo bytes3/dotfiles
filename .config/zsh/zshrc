@@ -1,4 +1,4 @@
-# Plugins list: 
+# Plugins list:
 # ~/.config/zsh/.zsh_plugins.txt
 #
 
@@ -6,12 +6,12 @@ if [ -z "$TMUX" ]; then
   exec tmux
 fi
 
-export ZDOTDIR="$HOME/.config/zsh"
+export ZSH_CONFIG="$HOME/.config/zsh"
 
-. "$ZDOTDIR/antidote_init"
-. "$ZDOTDIR/aliases"
-. "$ZDOTDIR/exports"
-. "$ZDOTDIR/functions"
+. "$ZSH_CONFIG/antidote_init"
+. "$ZSH_CONFIG/aliases"
+. "$ZSH_CONFIG/exports"
+. "$ZSH_CONFIG/functions"
 
 HISTFILE="$HOME/.cache/.histfile"
 HISTSIZE=30000
@@ -29,10 +29,6 @@ eval "$(zoxide init --cmd cd zsh)"
 . /opt/asdf-vm/asdf.sh
 
 bindkey '^ ' autosuggest-accept
-
-# This is a temporary fix 
-# tmux will load zsh config from $ZDOTDIR/.zshrc (which dose not exists)
-export ZDOTDIR="$HOME"
 
 neofetch
 

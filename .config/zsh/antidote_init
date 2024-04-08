@@ -1,7 +1,7 @@
 source '/usr/share/zsh-antidote/antidote.zsh'
 
 # Set the name of the static .zsh plugins file antidote will generate.
-zsh_plugins=$ZDOTDIR/.zsh_plugins.zsh
+zsh_plugins="$HOME/.config/zsh/zsh_plugins.zsh"
 
 # Generate static file in a subshell when zsh_plugins.txt is updated.
 if [[ ! $zsh_plugins -nt ${zsh_plugins:r}.txt ]]; then
@@ -11,5 +11,4 @@ fi
 # Source your static plugins file.
 source $zsh_plugins
 
-# initialize plugins statically with $ZSH_CONFIG_DIR/.zsh_plugins.txt
 antidote load
