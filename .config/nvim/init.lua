@@ -8,3 +8,5 @@ require 'custom.remaps'
 require 'custom.autocmds'
 
 require 'custom.lazyvim'
+
+require 'custom.vtip'
