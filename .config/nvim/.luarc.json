@@ -4,7 +4,8 @@
     ],
     "diagnostics.globals": [
         "find_files_absolute",
-        "toggle_diagnostic_drawing"
+        "toggle_diagnostic_drawing",
+        "config"
     ],
     "workspace.library": [
         "${3rd}/luvr/library",
