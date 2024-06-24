@@ -45,5 +45,5 @@ vim.keymap.set('n', '<C-f>', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
 vim.keymap.set({ 'n', 'v' }, '<leader>d', [["_d]])
 vim.keymap.set('x', '<leader>p', [["_dP]])
 
-vim.keymap.set('n', '<C-c>', ':w<CR>')
+-- vim.keymap.set('n', '<C-c>', ':w<CR>')
 -- vim.keymap.set('n', '<C-S-c>', ':wq!')
