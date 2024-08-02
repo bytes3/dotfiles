@@ -6,8 +6,7 @@ MichaelAquilina/zsh-you-should-use
 belak/zsh-utils path:prompt
 belak/zsh-utils path:completion
 
-# Oh-my-zsh plugins
-ohmyzsh/ohmyzsh path:plugins/vi-mode
+jeffreytse/zsh-vi-mode
 
 # popular fish-like plugins
 zsh-users/zsh-autosuggestions
