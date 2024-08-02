@@ -1,8 +1,7 @@
 return {
   {
     'stevearc/oil.nvim',
-    opts = {},
-    config = {
+    opts = {
       default_file_explorer = true,
     },
     -- Optional dependencies
