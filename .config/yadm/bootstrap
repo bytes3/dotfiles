@@ -10,19 +10,6 @@ if [ -n $(command -v pacman) ]; then
 	paru -S - <"$HOME/.pkglist.paru"
 fi
 
-# Tool version control
-. /opt/asdf-vm/asdf.sh
-
-plugins=(
-  nodejs
-)
-
-for plugin in $plugins; do
-  asdf plugin add "$plugin"
-  asdf install "$plugin" latest
-  asdf global "$plugin" latest
-done
-
 mkdir ~/.config/tmux/plugins
 git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 
@@ -37,7 +24,7 @@ cat << EOF
 　 /　/  You can now type
 　(　(ヽ       >zsh
 　|　|、＼
-　| 丿 ＼＼ 
+　| 丿 ＼＼
 　| |　　)/
 ノ )　　 Lﾉ
 EOF

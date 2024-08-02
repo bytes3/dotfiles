@@ -25,9 +25,6 @@ prompt belak
 # Replace original `cd` with zoxide `cd`
 eval "$(zoxide init --cmd cd zsh)"
 
-# Tool version control
-. /opt/asdf-vm/asdf.sh
-
 bindkey '^ ' autosuggest-accept
 
 neofetch
