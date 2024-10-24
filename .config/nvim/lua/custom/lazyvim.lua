@@ -46,16 +46,16 @@ require('lazy').setup({
     'folke/which-key.nvim',
     event = 'VeryLazy', -- Sets the loading event to 'VeryLazy'
     config = function() -- This is the function that runs, AFTER loading
-      require('which-key').setup()
+      local wk = require 'which-key'
 
-      -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[c]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[d]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[r]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[s]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[w]orkspace', _ = 'which_key_ignore' },
-      }
+      wk.add({
+        -- Define key groups
+        { '<leader>c', group = 'code', hidden = true }, -- Group for code-related commands
+        { '<leader>d', group = 'document', hidden = true }, -- Group for document-related commands
+        { '<leader>r', group = 'rename', hidden = true }, -- Group for rename commands
+        { '<leader>s', group = 'search', hidden = false }, -- Group for search-related commands
+        { '<leader>w', group = 'workspace', hidden = true }, -- Group for workspace-related commands
+      }, { mode = 'n' }) -- Applies to normal mode
     end,
   },
 
@@ -155,12 +155,12 @@ require('lazy').setup({
           grep_open_files = true,
           prompt_title = 'Live Grep in Open Files',
         }
-      end, { desc = '[S]earch [/] in Open Files' })
+      end, { desc = '[s]earch [/] in Open Files' })
 
       -- Shortcut for searching your neovim configuration files
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
-      end, { desc = '[S]earch [N]eovim files' })
+      end, { desc = '[s]earch [n]eovim files' })
     end,
   },
 
@@ -171,15 +171,11 @@ require('lazy').setup({
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      {
-        'pmizio/typescript-tools.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-        opts = {},
-      },
+      'pmizio/typescript-tools.nvim',
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      -- { 'j-hui/fidget.nvim', opts = {} },
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -258,7 +254,7 @@ require('lazy').setup({
       --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-      -- capabilities.textDocument.completion.completionItem.snippetSupport = true
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -271,16 +267,16 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        gopls = {
-          -- disable the diagnostic for "DuplicateDecl"
-          settings = {
-            gopls = {
-              diagnostics = {
-                disable = { 'DuplicateDecl' },
-              },
-            },
-          },
-        },
+        -- gopls = {
+        --   -- disable the diagnostic for "DuplicateDecl"
+        --   settings = {
+        --     gopls = {
+        --       diagnostics = {
+        --         disable = { 'DuplicateDecl' },
+        --       },
+        --     },
+        --   },
+        -- },
         -- pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -330,9 +326,12 @@ require('lazy').setup({
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
+        'gopls',
         'stylua',
         'prettier',
         'tsserver',
+        'pyright',
+        'ruff_lsp',
         'cssls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -375,10 +374,10 @@ require('lazy').setup({
     'stevearc/conform.nvim',
     opts = {
       notify_on_error = false,
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
-      },
+      -- format_on_save = {
+      --   timeout_ms = 500,
+      --   lsp_fallback = true,
+      -- },
       formatters_by_ft = {
         lua = { 'stylua' },
         html = { 'prettier' },
@@ -420,7 +419,6 @@ require('lazy').setup({
       --  into multiple repos for maintenance purposes.
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
-      'hrsh7th/cmp-buffer',
 
       -- If you want to add a bunch of pre-configured snippets,
       --    you can use this plugin to help you. It even has snippets
@@ -429,6 +427,7 @@ require('lazy').setup({
       'rafamadriz/friendly-snippets',
       'hrsh7th/cmp-nvim-lsp-signature-help',
 
+      'David-Kunz/cmp-npm',
       'onsails/lspkind.nvim',
     },
     config = function()
@@ -436,6 +435,7 @@ require('lazy').setup({
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
       local lspkind = require 'lspkind'
+      require('cmp-npm').setup {}
       luasnip.config.setup {}
 
       require('luasnip.loaders.from_vscode').lazy_load()
@@ -503,8 +503,8 @@ require('lazy').setup({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
-          { name = 'buffer', keyword_lenght = 3 },
           { name = 'nvim_lsp_signature_help' },
+          { name = 'npm', keyword_length = 4 },
           -- { name = 'codespell' },
         },
         sorting = {
@@ -536,10 +536,48 @@ require('lazy').setup({
         view = {
           entries = { name = 'custom', selection_order = 'near_cursor' },
         },
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
         experimental = {
-          ghost_text = true,
+          ghost_text = false,
         },
       }
+
+      local s = luasnip.snippet
+      local i = luasnip.insert_node
+      local t = luasnip.text_node
+      luasnip.add_snippets('all', {
+        s('ternary', {
+          -- equivalent to "${1:cond} ? ${2:then} : ${3:else}"
+          i(1, 'cond'),
+          t ' ? ',
+          i(2, 'then'),
+          t ' : ',
+          i(3, 'else'),
+        }),
+      })
+
+      luasnip.add_snippets('lua', {
+        s('addlazy', {
+          t 'return {',
+          t { '', '  -- cond = false,' },
+          t { '', "  '" },
+          i(1, '<1>'),
+          t { "'," },
+          t { '', "  branch = 'master'," },
+          t { '', '  init = function()' },
+          t { '', "    -- vim.g.VM_leader = 'm'" },
+          t { '', '  end,' },
+          t { '', '  config = function()' },
+          t { '', "  '" },
+          i(2, '<1>'),
+          t { "'," },
+          t { '', '  end,' },
+          t { '', '}' },
+        }),
+      })
     end,
   },
 
@@ -572,15 +610,19 @@ require('lazy').setup({
       --  - va)  - [V]isually select [A]round [)]parenthen
       --  - yinq - [Y]ank [I]nside [N]ext [']quote
       --  - ci'  - [C]hange [I]nside [']quote
-      require('mini.ai').setup { n_lines = 500 }
+      -- require('mini.ai').setup { n_lines = 500 }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
+      local ts_input = require('mini.surround').gen_spec.input.treesitter
       require('mini.surround').setup {
         highlight_duration = 1500,
+        custom_textobjects = {
+          f = ts_input { outer = '@call.outer', inner = '@call.inner' },
+        },
       }
 
       -- Simple and easy statusline.
@@ -634,6 +676,12 @@ require('lazy').setup({
     end,
   },
 
+  -- {
+  --   'nvim-treesitter/nvim-treesitter-textobjects',
+  --   dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  --   event = 'VeryLazy', -- or use another lazy loading event, if needed
+  -- },
+  --
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- put them in the right spots if you want.

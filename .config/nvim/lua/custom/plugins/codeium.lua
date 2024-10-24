@@ -27,7 +27,7 @@ return {
       -- toggles codeium
       vim.keymap.set('n', '<Leader>tc', function()
         return vim.cmd 'Codeium Toggle'
-      end)
+      end, { desc = 'Toggle [c]odeium' })
     end,
   },
 }
