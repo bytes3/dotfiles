@@ -29,6 +29,7 @@ exec_always  --no-startup-id  /usr/lib/polkit-kde-authentication-agent-1 &
 exec_always  --no-startup-id  wlsunset -l 47.165951 -L 27.579508 &
 exec_always  --no-startup-id  wl-paste --watch cliphist store &
 exec_always  --no-startup-id  keyd-application-mapper -d &
+exec_always  --no-startup-id  jamesdsp -t &
 exec --no-startup-id /usr/lib/pam_kwallet_init
 
 # exec_always  --no-startup-id  clipcatd    # start clipcatd at startup &
@@ -146,11 +147,11 @@ output HDMI-A-1 pos 0 0 res 1680x1050
     bindsym $mod+parenright workspace number 9
 
     # Move focused container to workspace
-    bindsym $mod+1        move container to workspace number 1
+    bindsym $mod+1 move container to workspace number 1
     bindsym $mod+2 move container to workspace number 2
-    bindsym $mod+3   move container to workspace number 3
-    bindsym $mod+4   move container to workspace number 4
-    bindsym $mod+5   move container to workspace number 5
+    bindsym $mod+3 move container to workspace number 3
+    bindsym $mod+4 move container to workspace number 4
+    bindsym $mod+5 move container to workspace number 5
     bindsym $mod+6 move container to workspace number 6
     bindsym $mod+7 move container to workspace number 7
     bindsym $mod+8 move container to workspace number 8
