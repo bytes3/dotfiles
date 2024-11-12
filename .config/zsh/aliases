@@ -44,10 +44,8 @@ alias atar="tar -acvf" \
 
 # vim
 alias v="nvim" \
-      sv="sudoedit" \
-      vw="v -c ':VimwikiIndex'" \
-      vd="v -c 'VimwikiMakeDiaryNote'"
-      
+      sv="sudoedit"
+
 # SSH
 alias pi="ssh dietpi@pi" \
       pi_sftp="sftp dietpi@pi"
@@ -64,4 +62,9 @@ alias dot="yadm"
 
 # shell
 alias rr=". ~/.zshrc"
+
+# snapper
+alias snap="sudo snapper" \
+      sls="snap ls -t pre-post" \
+      sst="snap status"
 
