@@ -1,17 +1,26 @@
 # Plugins list:
 # ~/.config/zsh/.zsh_plugins.txt
 #
+# zmodload zsh/zprof
+
+export ZSH_CONFIG="$HOME/.config/zsh"
+
+. "$ZSH_CONFIG/antidote_init"
+. "$ZSH_CONFIG/exports"
+. "$ZSH_CONFIG/aliases"
+. "$ZSH_CONFIG/functions"
 
 if [ -z "$TMUX" ]; then
   exec tmux
 fi
 
-export ZSH_CONFIG="$HOME/.config/zsh"
-
-. "$ZSH_CONFIG/antidote_init"
-. "$ZSH_CONFIG/aliases"
-. "$ZSH_CONFIG/exports"
-. "$ZSH_CONFIG/functions"
+if [[ -v TMUX ]]; then
+    # inside tmux, we don't know if Sway got restarted
+    swaymsg(){
+        export SWAYSOCK=$XDG_RUNTIME_DIR/sway-ipc.$UID.$(pgrep -x sway).sock
+        command swaymsg "$@"
+    }
+fi
 
 HISTFILE="$HOME/.cache/.histfile"
 HISTSIZE=30000
@@ -27,5 +36,5 @@ eval "$(zoxide init --cmd cd zsh)"
 
 bindkey '^ ' autosuggest-accept
 
-neofetch
-
+fastfetch
+# zprof
