@@ -50,11 +50,11 @@ require('lazy').setup({
 
       wk.add({
         -- Define key groups
-        { '<leader>c', group = 'code', hidden = true }, -- Group for code-related commands
-        { '<leader>d', group = 'document', hidden = true }, -- Group for document-related commands
-        { '<leader>r', group = 'rename', hidden = true }, -- Group for rename commands
+        { '<leader>c', group = 'code', hidden = false }, -- Group for code-related commands
+        { '<leader>d', group = 'document', hidden = false }, -- Group for document-related commands
+        { '<leader>r', group = 'rename', hidden = false }, -- Group for rename commands
         { '<leader>s', group = 'search', hidden = false }, -- Group for search-related commands
-        { '<leader>w', group = 'workspace', hidden = true }, -- Group for workspace-related commands
+        { '<leader>w', group = 'workspace', hidden = false }, -- Group for workspace-related commands
       }, { mode = 'n' }) -- Applies to normal mode
     end,
   },
@@ -218,7 +218,7 @@ require('lazy').setup({
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
-          map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+          map('<leader>ca', vim.lsp.buf.code_action, '[c]ode [a]ction')
 
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap
