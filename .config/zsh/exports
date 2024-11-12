@@ -1,9 +1,17 @@
 export PATH="$PATH:$HOME/.local/bin"
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # Editors
 export EDITOR="nvim"
 export DIFFPROG="nvim -d"
 export PAGER="bat"
+export BROWSER="zen-browser"
+export TERMINAL="kitty"
+export ZVM_VI_EDITOR="nvim"
+
+export PHONE_IP="192.168.1.191"
 
 if [[ "$(uname -s)" == "Linux" ]]; then
   # Enable Wayland support for different applications
@@ -19,4 +27,8 @@ if [[ "$(uname -s)" == "Linux" ]]; then
       export ECORE_EVAS_ENGINE=wayland_egl
       export ELM_ENGINE=wayland_egl
   fi
+
+ export XDG_DATA_HOME="$HOME/.local/share"
+ export XDG_CONFIG_HOME=$HOME/.config
+ export XDG_CONFIG_DIRS=/etc/xdg
 fi
