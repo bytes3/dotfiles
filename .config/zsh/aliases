@@ -63,6 +63,9 @@ alias dot="yadm"
 # shell
 alias rr=". ~/.zshrc"
 
+# pomo
+alias pomoc="pomo create -d 45m"
+
 # snapper
 alias snap="sudo snapper" \
       sls="snap ls -t pre-post" \

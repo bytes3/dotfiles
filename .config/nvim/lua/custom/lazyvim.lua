@@ -6,21 +6,6 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-
-  {
-    'numToStr/Comment.nvim',
-    opts = {
-      extra = {
-        ---Add comment on the line above
-        above = 'gcO',
-        ---Add comment on the line below
-        below = 'gco',
-        ---Add comment at the end of line
-        eol = 'gcA',
-      },
-    },
-  },
-
   {
     'lewis6991/gitsigns.nvim',
     opts = {
@@ -44,19 +29,57 @@ require('lazy').setup({
 
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
-    event = 'VeryLazy', -- Sets the loading event to 'VeryLazy'
-    config = function() -- This is the function that runs, AFTER loading
-      local wk = require 'which-key'
+    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+    opts = {
+      icons = {
+        -- set icon mappings to true if you have a Nerd Font
+        mappings = vim.g.have_nerd_font,
+        -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
+        -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
+        keys = vim.g.have_nerd_font and {} or {
+          Up = '<Up> ',
+          Down = '<Down> ',
+          Left = '<Left> ',
+          Right = '<Right> ',
+          C = '<C-…> ',
+          M = '<M-…> ',
+          D = '<D-…> ',
+          S = '<S-…> ',
+          CR = '<CR> ',
+          Esc = '<Esc> ',
+          ScrollWheelDown = '<ScrollWheelDown> ',
+          ScrollWheelUp = '<ScrollWheelUp> ',
+          NL = '<NL> ',
+          BS = '<BS> ',
+          Space = '<Space> ',
+          Tab = '<Tab> ',
+          F1 = '<F1>',
+          F2 = '<F2>',
+          F3 = '<F3>',
+          F4 = '<F4>',
+          F5 = '<F5>',
+          F6 = '<F6>',
+          F7 = '<F7>',
+          F8 = '<F8>',
+          F9 = '<F9>',
+          F10 = '<F10>',
+          F11 = '<F11>',
+          F12 = '<F12>',
+        },
+      },
 
-      wk.add({
-        -- Define key groups
-        { '<leader>c', group = 'code', hidden = false }, -- Group for code-related commands
-        { '<leader>d', group = 'document', hidden = false }, -- Group for document-related commands
-        { '<leader>r', group = 'rename', hidden = false }, -- Group for rename commands
-        { '<leader>s', group = 'search', hidden = false }, -- Group for search-related commands
-        { '<leader>w', group = 'workspace', hidden = false }, -- Group for workspace-related commands
-      }, { mode = 'n' }) -- Applies to normal mode
-    end,
+      -- Document existing key chains
+      spec = {
+        { '<leader>c', group = '[c]ode', mode = { 'n', 'x' } },
+        { '<leader>d', group = '[d]ocument' },
+        { '<leader>r', group = '[r]ename' },
+        { '<leader>s', group = '[s]earch' },
+        { '<leader>w', group = '[w]orkspace' },
+        { '<leader>t', group = '[t]oggle' },
+        { '<leader>o', group = '[o]pen file explorer' },
+        { '<leader>h', group = 'Git [h]unk', mode = { 'n', 'v' } },
+      },
+    },
   },
 
   {
@@ -372,12 +395,13 @@ require('lazy').setup({
 
   { -- Autoformat
     'stevearc/conform.nvim',
+    cond = false,
     opts = {
       notify_on_error = false,
-      -- format_on_save = {
-      --   timeout_ms = 500,
-      --   lsp_fallback = true,
-      -- },
+      format_on_save = {
+        timeout_ms = 500,
+        lsp_fallback = true,
+      },
       formatters_by_ft = {
         lua = { 'stylua' },
         html = { 'prettier' },
@@ -433,12 +457,30 @@ require('lazy').setup({
     config = function()
       -- See `:help cmp`
       local cmp = require 'cmp'
-      local luasnip = require 'luasnip'
       local lspkind = require 'lspkind'
+      local luasnip = require 'luasnip'
       require('cmp-npm').setup {}
-      luasnip.config.setup {}
 
-      require('luasnip.loaders.from_vscode').lazy_load()
+      luasnip.config.setup {}
+      vim.tbl_map(function(type)
+        require('luasnip.loaders.from_' .. type).lazy_load()
+      end, { 'vscode', 'snipmate', 'lua' })
+
+      -- friendly-snippets - enable standardized comments snippets
+      require('luasnip').filetype_extend('typescript', { 'javascript', 'tsdoc' })
+      require('luasnip').filetype_extend('typescriptreact', { 'javascript' })
+      require('luasnip').filetype_extend('javascript', { 'jsdoc' })
+      require('luasnip').filetype_extend('lua', { 'luadoc' })
+      require('luasnip').filetype_extend('python', { 'pydoc' })
+      require('luasnip').filetype_extend('c', { 'cdoc' })
+      require('luasnip').filetype_extend('cpp', { 'cppdoc' })
+      require('luasnip').filetype_extend('sh', { 'shelldoc' })
+      -- require("luasnip").filetype_extend("rust", { "rustdoc" })
+      -- require("luasnip").filetype_extend("cs", { "csharpdoc" })
+      -- require("luasnip").filetype_extend("java", { "javadoc" })
+      -- require("luasnip").filetype_extend("php", { "phpdoc" })
+      -- require("luasnip").filetype_extend("kotlin", { "kdoc" })
+      -- require("luasnip").filetype_extend("ruby", { "rdoc" })
 
       cmp.setup {
         snippet = {
@@ -466,9 +508,9 @@ require('lazy').setup({
         -- No, but seriously. Please read `:help ins-completion`, it is really good!
         mapping = cmp.mapping.preset.insert {
           -- Select the [n]ext item
-          ['<C-n>'] = cmp.mapping.select_next_item(),
-          -- Select the [p]revious item
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
+          -- ['<C-n>'] = cmp.mapping.select_next_item(),
+          -- -- Select the [p]revious item
+          -- ['<C-p>'] = cmp.mapping.select_prev_item(),
 
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
@@ -631,6 +673,7 @@ require('lazy').setup({
       require('mini.statusline').setup {
         set_vim_settings = false,
         set_colors = true,
+        use_icons = vim.g.have_nerd_font,
 
         content = {
           active = function()
@@ -665,22 +708,31 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    config = function()
-      -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-
-      ---@diagnostic disable-next-line: missing-fields
-      require('nvim-treesitter.configs').setup {
-        highlight = { enable = true },
-        indent = { enable = true },
-      }
-    end,
+    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+    opts = {
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      -- Autoinstall languages that are not installed
+      auto_install = true,
+      highlight = {
+        enable = true,
+        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
+        --  If you are experiencing weird indenting issues, add the language to
+        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
+        additional_vim_regex_highlighting = { 'ruby' },
+      },
+      indent = { enable = true, disable = { 'ruby' } },
+    },
+    -- There are additional nvim-treesitter modules that you can use to interact
+    -- with nvim-treesitter. You should go explore a few and see what interests you:
+    --
+    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
+    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
+    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
-
-  -- {
-  --   'nvim-treesitter/nvim-treesitter-textobjects',
-  --   dependencies = { 'nvim-treesitter/nvim-treesitter' },
-  --   event = 'VeryLazy', -- or use another lazy loading event, if needed
-  -- },
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+  },
   --
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
