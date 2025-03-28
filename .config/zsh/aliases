@@ -71,3 +71,5 @@ alias snap="sudo snapper" \
       sls="snap ls -t pre-post" \
       sst="snap status"
 
+# Android
+alias adbw='adb connect 192.168.1.191:$(nmap 192.168.1.191 -p 37000-44000 | awk "/\/tcp/" | cut -d/ -f1)'

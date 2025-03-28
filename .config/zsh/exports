@@ -1,4 +1,5 @@
 export PATH="$PATH:$HOME/.local/bin"
+export PATH=~/.npm-global/bin:$PATH
 export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
@@ -7,9 +8,11 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export EDITOR="nvim"
 export DIFFPROG="nvim -d"
 export PAGER="bat"
-export BROWSER="zen-browser"
-export TERMINAL="kitty"
 export ZVM_VI_EDITOR="nvim"
+export ELECTRON_OZONE_PLATFORM_HINT=wayland
+
+export BROWSER="brave"
+export TERMINAL="kitty"
 
 export PHONE_IP="192.168.1.191"
 
