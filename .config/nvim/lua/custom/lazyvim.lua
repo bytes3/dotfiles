@@ -6,6 +6,9 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+  rocks = {
+    hererocks = true,  -- recommended if you do not have global installation of Lua 5.1.
+  },
   {
     'lewis6991/gitsigns.nvim',
     opts = {
@@ -307,8 +310,7 @@ require('lazy').setup({
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
-        -- But for many setups, the LSP (`tsserver`) will work just fine
-        tsserver = { enabled = false },
+        ts_ls = {},
         tailwindcss = {},
         bashls = {},
 
@@ -352,9 +354,9 @@ require('lazy').setup({
         'gopls',
         'stylua',
         'prettier',
-        'tsserver',
+        'ts_ls',
         'pyright',
-        'ruff_lsp',
+        'ruff-lsp',
         'cssls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -364,7 +366,7 @@ require('lazy').setup({
           function(server_name)
             local server = servers[server_name] or {}
 
-            if server_name == 'tsserver' then
+            if server_name == 'ts_ls' then
               -- TODO: move this to the servers table
               require('typescript-tools').setup {
                 capabilities = capabilities,
@@ -384,7 +386,7 @@ require('lazy').setup({
               filetypes = server.filetypes,
               -- This handles overriding only values explicitly passed
               -- by the server configuration above. Useful when disabling
-              -- certain features of an LSP (for example, turning off formatting for tsserver)
+              -- certain features of an LSP (for example, turning off formatting for ts_ls)
               capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {}),
             }
           end,

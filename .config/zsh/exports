@@ -15,6 +15,7 @@ export BROWSER="brave"
 export TERMINAL="kitty"
 
 export PHONE_IP="192.168.1.191"
+export PI_IP="192.168.1.235"
 
 if [[ "$(uname -s)" == "Linux" ]]; then
   # Enable Wayland support for different applications
@@ -36,3 +37,4 @@ if [[ "$(uname -s)" == "Linux" ]]; then
  export XDG_CONFIG_DIRS=/etc/xdg
  export LOCALE_ARCHIVE="/usr/lib/locale/locale-archive"
 fi
+
