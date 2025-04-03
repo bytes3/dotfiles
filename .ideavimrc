@@ -1,0 +1,66 @@
+
+" Define the leader key
+let mapleader = " "
+
+" Enable incremental search and highlighted search
+set incsearch
+set hlsearch
+
+set commentary
+set multiple-cursors
+set surround
+set which-key
+set peekaboo
+
+" Map Esc to clear search highlighting (Note: 'removeSecondaryCursors' is VSCode-specific)
+nnoremap <Esc> :noh<CR>
+
+" Map K to show quick documentation via IntelliJ action
+nnoremap K :action QuickJavaDoc<CR>
+
+" Map <leader>st to open settings (there were two conflicting mappings in VSCode;
+" here we consolidate to one action; adjust if you want a different behavior)
+" nnoremap <leader>st :action ShowSettings
+
+" yank/paste to/from system clipboard
+set clipboard=unnamedplus
+
+" Map <C-c> to write all buffers (simulate :wa)
+nnoremap <C-c> :wa<CR>
+
+" Map <leader>S to select all occurrences (using IntelliJ’s select-all-occurrences action)
+nnoremap <leader>S :action SelectAllOccurrences<CR>
+
+" Map <leader>ca to trigger quick fixes (show intention actions)
+nnoremap <leader>ca :action ShowIntentionActions<CR>
+
+" Harpoon
+nmap <C-h> :action GotoHarpoon1<cr>
+nmap <C-t> :action GotoHarpoon2<cr>
+nmap <C-n> :action GotoHarpoon3<cr>
+nmap <C-s> :action GotoHarpoon4<cr>
+
+nmap <leader>e :action ShowHarpoon<cr>
+nmap <leader>a :action AddToHarpoon<cr>
+
+" Remap multiple-cursors shortcuts to match terryma/vim-multiple-cursors
+nmap <C-n> <Plug>NextWholeOccurrence
+xmap <C-n> <Plug>NextWholeOccurrence
+nmap g<C-n> <Plug>NextOccurrence
+xmap g<C-n> <Plug>NextOccurrence
+xmap <C-x> <Plug>SkipOccurrence
+xmap <C-p> <Plug>RemoveOccurrence
+
+" Note that the default <A-n> and g<A-n> shortcuts don't work on Mac due to dead keys.
+" <A-n> is used to enter accented text e.g. ñ
+" Feel free to pick your own mappings that are not affected. I like to use <leader>
+xmap <leader><C-n> <Plug>AllWholeOccurrences
+nmap <leader>g<C-n> <Plug>AllOccurrences
+xmap <leader>g<C-n> <Plug>AllOccurrences
+
+map <leader><CR> :action ActivateTerminalToolWindow<CR>
+
+nmap <leader>sk :edit ~/Documents/ideavim-id-actions.txt<CR>
+
+nmap <leader>st :edit ~/.ideavimrc<CR>
+nmap <leader>rr :source ~/.ideavimrc<CR>
