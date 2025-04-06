@@ -1,5 +1,3 @@
-
-" Define the leader key
 let mapleader = " "
 
 " Enable incremental search and highlighted search
@@ -9,43 +7,42 @@ set hlsearch
 set commentary
 set multiple-cursors
 set surround
+set quickscope
+set highlightedyank
 set which-key
-set peekaboo
+set notimeout " for which-key
+set timeoutlen=5000 " for which-key
 
-" Map Esc to clear search highlighting (Note: 'removeSecondaryCursors' is VSCode-specific)
-nnoremap <Esc> :noh<CR>
+let g:highlightedyank_highlight_duration = "1000"
+let g:highlightedyank_highlight_color = "rgba(57, 62, 65, 255)"
 
-" Map K to show quick documentation via IntelliJ action
-nnoremap K :action QuickJavaDoc<CR>
-
-" Map <leader>st to open settings (there were two conflicting mappings in VSCode;
-" here we consolidate to one action; adjust if you want a different behavior)
-" nnoremap <leader>st :action ShowSettings
+" quickscope
+let g:qs_disable_for_diffs = 1
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 " yank/paste to/from system clipboard
-set clipboard=unnamedplus
-
+"set clipboard=unnamed
+ 
 " Map <C-c> to write all buffers (simulate :wa)
 nnoremap <C-c> :wa<CR>
 
 " Map <leader>S to select all occurrences (using IntelliJ’s select-all-occurrences action)
 nnoremap <leader>S :action SelectAllOccurrences<CR>
 
-" Map <leader>ca to trigger quick fixes (show intention actions)
+nnoremap <leader>K :action ShowHoverInfo<CR>
 nnoremap <leader>ca :action ShowIntentionActions<CR>
+nnoremap <leader>e :action ShowErrorDescription<CR>
 
-" Harpoon
-nmap <C-h> :action GotoHarpoon1<cr>
-nmap <C-t> :action GotoHarpoon2<cr>
-nmap <C-n> :action GotoHarpoon3<cr>
-nmap <C-s> :action GotoHarpoon4<cr>
+nmap <C-e> <action>(HarpoonerToggleQuickMenu)
+nmap <leader>a <action>(HarpoonerToggleFile)
 
-nmap <leader>e :action ShowHarpoon<cr>
-nmap <leader>a :action AddToHarpoon<cr>
+nmap <C-h> <action>(HarpoonerOpenFile0)
+nmap <C-t> <action>(HarpoonerOpenFile1)
+nmap <C-n> <action>(HarpoonerOpenFile2)
+nmap <C-s> <action>(HarpoonerOpenFile3)
 
 " Remap multiple-cursors shortcuts to match terryma/vim-multiple-cursors
-nmap <C-n> <Plug>NextWholeOccurrence
-xmap <C-n> <Plug>NextWholeOccurrence
+nmap gn <Plug>NextWholeOccurrence
 nmap g<C-n> <Plug>NextOccurrence
 xmap g<C-n> <Plug>NextOccurrence
 xmap <C-x> <Plug>SkipOccurrence
@@ -64,3 +61,42 @@ nmap <leader>sk :edit ~/Documents/ideavim-id-actions.txt<CR>
 
 nmap <leader>st :edit ~/.ideavimrc<CR>
 nmap <leader>rr :source ~/.ideavimrc<CR>
+
+nmap <C-j> :action EditorCloneCaretBelow<CR>
+nmap <C-k> :action EditorCloneCaretAbove<CR>
+
+nnoremap <Esc> :call cancelSearchHighlightAndCaretMode()<CR>
+
+nmap <leader>rf <Action>(RenameFile)
+
+vmap <S-J> <Action>(MoveLineDown)
+vmap <S-K> <Action>(MoveLineUp)
+
+nmap ]e <Action>(GotoNextError)
+nmap [e <Action>(GotoPreviousError)
+
+nmap sh :split <CR>
+nmap sv :vsplit <CR>
+
+nnoremap <leader>f :action ReformatCode<CR>
+nnoremap <leader>re :action Refactorings.QuickListPopupAction<CR>
+
+nnoremap gI :action GotoImplementation<CR>
+
+nmap <leader>tr :exec &nu==&rnu? "se nornu" : "se rnu" <CR>
+
+nnoremap <leader>y "+y
+nnoremap <leader>Y "+Y
+
+vnoremap <leader>y "+y
+vnoremap <leader>Y "+Y
+" IdeaVim dose not recognise Leader when Shift is on hold
+vnoremap <S-Space>Y "+Y
+
+nnoremap <leader>rn :action RenameElement<CR>
+nnoremap <leader>rf :action RenameFile<CR>
+
+function! cancelSearchHighlightAndCaretMode()
+  :action EditorToggleColumnMode
+  :noh
+endfunction
