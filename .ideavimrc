@@ -3,6 +3,7 @@ let mapleader = " "
 " Enable incremental search and highlighted search
 set incsearch
 set hlsearch
+set relativenumber
 
 set commentary
 set multiple-cursors
@@ -13,6 +14,7 @@ set which-key
 set notimeout " for which-key
 set timeoutlen=5000 " for which-key
 
+" highlightedyank
 let g:highlightedyank_highlight_duration = "1000"
 let g:highlightedyank_highlight_color = "rgba(57, 62, 65, 255)"
 
@@ -28,10 +30,14 @@ nnoremap <C-c> :wa<CR>
 
 " Map <leader>S to select all occurrences (using IntelliJ’s select-all-occurrences action)
 nnoremap <leader>S :action SelectAllOccurrences<CR>
-
 nnoremap <leader>K :action ShowHoverInfo<CR>
-nnoremap <leader>ca :action ShowIntentionActions<CR>
 nnoremap <leader>e :action ShowErrorDescription<CR>
+nnoremap <leader>sw :action FindInPath<CR>
+nnoremap gI :action GotoImplementation<CR>
+nnoremap gT :action GotoTypeDeclaration<CR>
+nnoremap <leader>ca :action ShowIntentionActions<CR>
+nnoremap <leader>ci :action ImplementMethods<CR>
+nnoremap <leader>gr :action Refactorings.QuickListPopupAction<CR>
 
 nmap <C-e> <action>(HarpoonerToggleQuickMenu)
 nmap <leader>a <action>(HarpoonerToggleFile)
@@ -72,11 +78,11 @@ nmap <leader>rf <Action>(RenameFile)
 vmap <S-J> <Action>(MoveLineDown)
 vmap <S-K> <Action>(MoveLineUp)
 
-nmap ]e <Action>(GotoNextError)
-nmap [e <Action>(GotoPreviousError)
+nmap [E <Action>(GotoNextError)
+nmap [[E <Action>(GotoPreviousError)
 
-nmap sh :split <CR>
-nmap sv :vsplit <CR>
+nmap sh :split<CR>
+nmap sv :vsplit<CR>
 
 nnoremap <leader>f :action ReformatCode<CR>
 nnoremap <leader>re :action Refactorings.QuickListPopupAction<CR>
@@ -85,6 +91,7 @@ nnoremap gI :action GotoImplementation<CR>
 
 nmap <leader>tr :exec &nu==&rnu? "se nornu" : "se rnu" <CR>
 
+" --- yank
 nnoremap <leader>y "+y
 nnoremap <leader>Y "+Y
 
@@ -93,8 +100,22 @@ vnoremap <leader>Y "+Y
 " IdeaVim dose not recognise Leader when Shift is on hold
 vnoremap <S-Space>Y "+Y
 
+" --- paste
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
+vnoremap <S-Space>P "+P
+
 nnoremap <leader>rn :action RenameElement<CR>
 nnoremap <leader>rf :action RenameFile<CR>
+
+nmap <leader>= :action ReformatCode<CR>
+nmap <leader>tai :action VimFindActionIdAction<CR>
+
+" Git
+nmap <leader>hr :action Vcs.RollbackChangedLines<CR>
 
 function! cancelSearchHighlightAndCaretMode()
   :action EditorToggleColumnMode
