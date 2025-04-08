@@ -3,3 +3,8 @@ mkk() {
   cd "$1"
 }
 
+k7build() {
+  cd ~/Dev/by-others/qmk_firmware 
+  make keychron/k7_max/ansi/rgb:default:build
+  make keychron/k7_max/ansi/rgb:default:flash
+}

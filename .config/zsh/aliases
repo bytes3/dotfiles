@@ -73,3 +73,6 @@ alias snap="sudo snapper" \
 
 # Android
 alias adbw='adb connect 192.168.1.191:$(nmap 192.168.1.191 -p 37000-44000 | awk "/\/tcp/" | cut -d/ -f1)'
+
+# QMK
+alias vq="v ~/Dev/by-others/qmk_firmware/keyboards/keychron/k9_pro/ansi/rgb/keymaps/default/keymap.c"

@@ -61,7 +61,8 @@ xmap <leader><C-n> <Plug>AllWholeOccurrences
 nmap <leader>g<C-n> <Plug>AllOccurrences
 xmap <leader>g<C-n> <Plug>AllOccurrences
 
-map <leader><CR> :action ActivateTerminalToolWindow<CR>
+" nmap <leader><CR> :action ActivateTerminalToolWindow<CR>
+nmap <leader><CR> :action com.sburlyaev.cmd.plugin.actions.OpenTerminal<CR>
 
 nmap <leader>sk :edit ~/Documents/ideavim-id-actions.txt<CR>
 
