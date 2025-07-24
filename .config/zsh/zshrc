@@ -31,12 +31,13 @@ SAVEHIST=30000
 unsetopt beep
 unsetopt HIST_VERIFY # Enabled by zsh-utils
 
-prompt belak
-
 # Replace original `cd` with zoxide `cd`
 eval "$(zoxide init --cmd cd zsh)"
+eval "$(starship init zsh)"
+eval $(thefuck --alias)
 
 bindkey '^ ' autosuggest-accept
 
 fastfetch
+
 # zprof
