@@ -36,7 +36,8 @@ alias e="echo" \
       chx="chmod +x" \
       sudo="sudo -v; sudo" \
       dfc="df -h . | g -A2 Avail" \
-      re="repeat"
+      re="repeat" \
+      open="xdg-open"
 
 # Tar
 alias atar="tar -acvf" \
@@ -68,11 +69,10 @@ alias pomoc="pomo create -d 45m"
 
 # snapper
 alias snap="sudo snapper" \
-      sls="snap ls -t pre-post" \
-      sst="snap status"
+      sls="snap ls -t pre-post"
 
 # Android
-alias adbw='adb connect 192.168.1.191:$(nmap 192.168.1.191 -p 37000-44000 | awk "/\/tcp/" | cut -d/ -f1)'
+alias adbw='adb connect $PHONE_IP:$(nmap $PHONE_IP -p 37000-44000 | awk "/\/tcp/" | cut -d/ -f1)'
 
 # QMK
-alias vq="v ~/Dev/by-others/qmk_firmware/keyboards/keychron/k9_pro/ansi/rgb/keymaps/default/keymap.c"
+alias vq="cd ~/Dev/by-others/qmk_firmware && v keyboards/keychron/k7_max/ansi/rgb/keymaps/default/keymap.c"

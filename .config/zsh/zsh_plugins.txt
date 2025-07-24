@@ -3,7 +3,7 @@ olets/zsh-abbr    kind:defer
 MichaelAquilina/zsh-you-should-use
 
 # bleak
-belak/zsh-utils path:prompt
+#belak/zsh-utils path:prompt
 belak/zsh-utils path:completion
 
 jeffreytse/zsh-vi-mode

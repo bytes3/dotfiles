@@ -4,13 +4,18 @@ let mapleader = " "
 set incsearch
 set hlsearch
 set relativenumber
+set ideajoin
 
 set commentary
 set multiple-cursors
 set surround
 set quickscope
 set highlightedyank
-set which-key
+"set which-key
+set NERDTree
+set visualbell
+set noerrorbells
+
 set notimeout " for which-key
 set timeoutlen=5000 " for which-key
 
@@ -24,7 +29,7 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 " yank/paste to/from system clipboard
 "set clipboard=unnamed
- 
+
 " Map <C-c> to write all buffers (simulate :wa)
 nnoremap <C-c> :wa<CR>
 
@@ -34,13 +39,14 @@ nnoremap <leader>K :action ShowHoverInfo<CR>
 nnoremap <leader>e :action ShowErrorDescription<CR>
 nnoremap <leader>sw :action FindInPath<CR>
 nnoremap gI :action GotoImplementation<CR>
-nnoremap gT :action GotoTypeDeclaration<CR>
+nnoremap gD :action GotoTypeDeclaration<CR>
 nnoremap <leader>ca :action ShowIntentionActions<CR>
 nnoremap <leader>ci :action ImplementMethods<CR>
+nnoremap <leader>cs :action InsertLiveTemplate<CR>
 nnoremap <leader>gr :action Refactorings.QuickListPopupAction<CR>
 
 nmap <C-e> <action>(HarpoonerToggleQuickMenu)
-nmap <leader>a <action>(HarpoonerToggleFile)
+nmap <leader>a <action>(HarpoonerAddFile)
 
 nmap <C-h> <action>(HarpoonerOpenFile0)
 nmap <C-t> <action>(HarpoonerOpenFile1)
@@ -50,7 +56,7 @@ nmap <C-s> <action>(HarpoonerOpenFile3)
 " Remap multiple-cursors shortcuts to match terryma/vim-multiple-cursors
 nmap gn <Plug>NextWholeOccurrence
 nmap g<C-n> <Plug>NextOccurrence
-xmap g<C-n> <Plug>NextOccurrence
+xmap gn <Plug>NextOccurrence
 xmap <C-x> <Plug>SkipOccurrence
 xmap <C-p> <Plug>RemoveOccurrence
 
@@ -117,6 +123,12 @@ nmap <leader>tai :action VimFindActionIdAction<CR>
 
 " Git
 nmap <leader>hr :action Vcs.RollbackChangedLines<CR>
+
+" NERDTree
+nmap <leader>tn :NERDTreeToggle<CR>
+nmap <leader>nf :NERDTreeFocus<CR>
+
+nmap ZQ :wq!<CR>
 
 function! cancelSearchHighlightAndCaretMode()
   :action EditorToggleColumnMode

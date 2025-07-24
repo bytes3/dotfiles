@@ -14,7 +14,7 @@ export ELECTRON_OZONE_PLATFORM_HINT=wayland
 export BROWSER="brave"
 export TERMINAL="kitty"
 
-export PHONE_IP="192.168.1.191"
+export PHONE_IP="192.168.1.128"
 export PI_IP="192.168.1.235"
 
 if [[ "$(uname -s)" == "Linux" ]]; then
@@ -37,4 +37,7 @@ if [[ "$(uname -s)" == "Linux" ]]; then
  export XDG_CONFIG_DIRS=/etc/xdg
  export LOCALE_ARCHIVE="/usr/lib/locale/locale-archive"
 fi
+
+# jetbrain stuff
+___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 

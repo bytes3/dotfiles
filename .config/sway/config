@@ -128,36 +128,36 @@ output HDMI-A-1 pos 0 0 res 1920x1080
 #
 # Workspaces:
 #
-    workspace 1 output HDMI-A-1
-    workspace 2 output HDMI-A-1
-    workspace 3 output HDMI-A-1
-    workspace 4 output HDMI-A-1
-    workspace 5 output HDMI-A-1
-    workspace 6 output HDMI-A-1
-    workspace 7 output HDMI-A-1
-    workspace 8 output HDMI-A-1
-    workspace 9 output HDMI-A-1
+    workspace 1 output DP-1
+    workspace 2 output DP-1
+    workspace 3 output DP-1
+    workspace 4 output DP-1
+    workspace 5 output DP-1
+    workspace 6 output DP-1
+    workspace 7 output DP-1
+    workspace 8 output DP-1
+    workspace 9 output DP-1
 
     # Switch to workspace
-    bindsym $mod+plus workspace number 1
-    bindsym $mod+bracketleft workspace number 2
-    bindsym $mod+braceleft workspace number 3
-    bindsym $mod+parenleft workspace number 4
-    bindsym $mod+ampersand workspace number 5
-    bindsym $mod+asterisk workspace number 6
-    bindsym $mod+bracketright workspace number 7
-    bindsym $mod+braceright workspace number 8
-    bindsym $mod+parenright workspace number 9
+    bindsym $mod+1 workspace number 1
+    bindsym $mod+2 workspace number 2
+    bindsym $mod+3 workspace number 3
+    bindsym $mod+4 workspace number 4
+    bindsym $mod+5 workspace number 5
+    bindsym $mod+6 workspace number 6
+    bindsym $mod+7 workspace number 7
+    bindsym $mod+8 workspace number 8
+    bindsym $mod+9 workspace number 9
 
     # Move focused container to workspace
-    bindsym $mod+1 move container to workspace number 1
-    bindsym $mod+2 move container to workspace number 2
-    bindsym $mod+3 move container to workspace number 3
-    bindsym $mod+4 move container to workspace number 4
-    bindsym $mod+5 move container to workspace number 5
-    bindsym $mod+6 move container to workspace number 6
-    bindsym $mod+7 move container to workspace number 7
-    bindsym $mod+8 move container to workspace number 8
+    bindsym $mod+plus move container to workspace number 1
+    bindsym $mod+bracketleft move container to workspace number 2
+    bindsym $mod+braceleft move container to workspace number 3
+    bindsym $mod+parenleft move container to workspace number 4
+    bindsym $mod+ampersand move container to workspace number 5
+    bindsym $mod+asterisk move container to workspace number 6
+    bindsym $mod+braceright move container to workspace number 7
+    bindsym $mod+parenright move container to workspace number 8
 
 # Layout stuff:
 #
