@@ -17,6 +17,8 @@ export TERMINAL="kitty"
 export PHONE_IP="192.168.1.128"
 export PI_IP="192.168.1.235"
 
+export PIP_BREAK_SYSTEM_PACKAGES=1
+
 if [[ "$(uname -s)" == "Linux" ]]; then
   # Enable Wayland support for different applications
   if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
@@ -41,3 +43,5 @@ fi
 # jetbrain stuff
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
+export ROCM_PATH=/opt/rocm
+export HSA_OVERRIDE_GFX_VERSION=10.3.0
