@@ -11,7 +11,7 @@ set multiple-cursors
 set surround
 set quickscope
 set highlightedyank
-"set which-key
+set which-key
 set NERDTree
 set visualbell
 set noerrorbells
@@ -55,7 +55,7 @@ nmap <C-s> <action>(HarpoonerOpenFile3)
 
 " Remap multiple-cursors shortcuts to match terryma/vim-multiple-cursors
 nmap gn <Plug>NextWholeOccurrence
-nmap g<C-n> <Plug>NextOccurrence
+" nmap <C-n> <Plug>NextOccurrence
 xmap gn <Plug>NextOccurrence
 xmap <C-x> <Plug>SkipOccurrence
 xmap <C-p> <Plug>RemoveOccurrence
@@ -129,6 +129,9 @@ nmap <leader>tn :NERDTreeToggle<CR>
 nmap <leader>nf :NERDTreeFocus<CR>
 
 nmap ZQ :wq!<CR>
+
+inoremap <C-v> <esc>"+pa
+vnoremap <C-c> "+y
 
 function! cancelSearchHighlightAndCaretMode()
   :action EditorToggleColumnMode
