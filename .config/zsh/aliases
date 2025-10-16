@@ -48,8 +48,8 @@ alias v="nvim" \
       sv="sudoedit"
 
 # SSH
-alias pi="ssh dietpi@pi" \
-      pi_sftp="sftp dietpi@pi"
+alias pi="ssh dietpi@$PI_IP" \
+      pi_sftp="sftp dietpi@$PI_IP"
 
 # git
 alias gst="git status" \
