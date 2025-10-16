@@ -8,3 +8,13 @@ k7build() {
   make keychron/k7_max/ansi/rgb:default:build
   make keychron/k7_max/ansi/rgb:default:flash
 }
+
+# Usage: paste the url file and type `vimurl https://example.org/ html`
+function vimurl(){
+  curl -s "$1" | nvim -c "setlocal buftype=nowrite" -c "set filetype=$2" -;
+}
+
+# Usage: copy some text that is html and type `vimpaste html`
+function vimpaste() {
+  wl-paste | nvim -c "set filetype=$1"
+}
