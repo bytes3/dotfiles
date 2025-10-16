@@ -33,7 +33,7 @@ exec_always  --no-startup-id  wl-paste --watch cliphist store &
 exec_always  --no-startup-id  kdeconnect-indicator &
 exec_always  --no-startup-id  blueman-tray &
 
-exec --no-startup-id /usr/lib/pam_kwallet_init
+# exec --no-startup-id /usr/lib/pam_kwallet_init
 
 # exec_always  --no-startup-id  clipcatd    # start clipcatd at startup &
 
@@ -91,13 +91,13 @@ output HDMI-A-1 pos 0 0 res 1920x1080
     # Start a terminal
     bindsym $mod+Return exec $term
 
-    bindsym $mod+period exec $BROWSER
+    bindsym $mod+period exec brave
 
     # Kill focused window
     bindsym $mod+q kill
 
     # Start your launcher
-    bindsym $mod+d exec $menu
+    bindsym $mod+e exec $menu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -110,7 +110,7 @@ output HDMI-A-1 pos 0 0 res 1920x1080
     bindsym $mod+Shift+q reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your cayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    bindsym $mod+shift+x exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your cayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 #
 # Moving around:
 #
@@ -170,7 +170,6 @@ output HDMI-A-1 pos 0 0 res 1920x1080
     # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
     bindsym $mod+w layout tabbed
-    bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
     bindsym $mod+f fullscreen
@@ -233,7 +232,8 @@ bindsym $mod+Next exec --no-startup-id home_light.sh bdown
 bindsym $mod+Shift+End exec --no-startup-id systemctl suspend
 
 # clipboard
-bindsym $mod+Shift+v exec --no-startup-id rofi -modi clipboard:cliphist-rofi-img.sh -show clipboard -show-icons
+bindsym $mod+Shift+v exec --no-startup-id rofi -modi clipboard:~/.local/bin/cliphist-rofi-img.sh -show clipboard -show-icons
+bindsym alt+j exec --no-startup-id normcap
 
 # Toggle HDMI-A-1 output off
 bindsym $mod+Shift+Next exec "swaymsg output HDMI-A-1 dpms off"
@@ -250,7 +250,7 @@ bar {
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
     # status_command while date +'%Y-%m-%d %X'; do sleep 1; done
-    status_command status.sh
+    status_command ~/.config/sway/status.sh
     # colors {
     #     statusline #ffffff
     #     background #323232
