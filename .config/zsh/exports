@@ -11,6 +11,8 @@ export PAGER="bat"
 export ZVM_VI_EDITOR="nvim"
 export ELECTRON_OZONE_PLATFORM_HINT=wayland
 
+export TERM="tmux-256color"
+
 export BROWSER="brave"
 export TERMINAL="kitty"
 
