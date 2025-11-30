@@ -11,9 +11,9 @@ export ZSH_CONFIG="$HOME/.config/zsh"
 . "$ZSH_CONFIG/functions"
 
 if [ -z "$TMUX" ]; then
-  if [ -z $NO_TMUX ]; then
-    exec tmux
-  fi
+ if [ -z $NO_TMUX ]; then
+   exec $(tmux) || exec zsh
+ fi
 fi
 
 if [[ -v TMUX ]]; then
