@@ -1,0 +1,8 @@
+#/usr/bin/env bash
+
+project=$(ls -1 ~/.config/tmuxinator/ | awk -F. '{print $1}' | fzf --tmux bottom,30%)
+
+[[ $? -ne 0 ]] && exit 0
+
+tmuxinator start "$project"
+
