@@ -4,8 +4,10 @@
 
 killall hass-cli
 
-export HASS_SERVER="http://$PI_IP:8123"
+# TODO: Move this to KWallet
+# Use this command to query the password: kwallet-query main -f env -r home_assistant_api
 export HASS_TOKEN="$(cat $HOME/.config/api_keys/home_assistant)"
+export HASS_SERVER="http://$PI_IP:8123"
 
 ENTITY="light.yeelight_color4_0x15603376"
 NOTIFICATION_ID="1101"
@@ -37,12 +39,12 @@ toggle_light() {
 set_rgb_color() {
 	VALUE_BRIGHTNESS=$1
 
-	cat $BRIGHTNESS_TMP 2>/dev/null || echo 50 > $BRIGHTNESS_TMP 
+	cat $BRIGHTNESS_TMP 2>/dev/null || echo 50 > $BRIGHTNESS_TMP
 
-	CURRENT_BRIGHTNESS=$(cat $BRIGHTNESS_TMP 2>/dev/null) 
+	CURRENT_BRIGHTNESS=$(cat $BRIGHTNESS_TMP 2>/dev/null)
 	CURRENT_BRIGHTNESS=$((CURRENT_BRIGHTNESS+VALUE_BRIGHTNESS))
 
-	[ "$CURRENT_BRIGHTNESS" -gt 100 ] && CURRENT_BRIGHTNESS=100 
+	[ "$CURRENT_BRIGHTNESS" -gt 100 ] && CURRENT_BRIGHTNESS=100
 	[ "$CURRENT_BRIGHTNESS" -lt 1 ] && CURRENT_BRIGHTNESS=1
 
 	echo $CURRENT_BRIGHTNESS > $BRIGHTNESS_TMP
@@ -52,25 +54,25 @@ set_rgb_color() {
 
   ~/.local/bin/hass-cli --debug -o json raw post /api/services/yeelight/set_color_scene --json "$color_result"
 
-	notify "Room Brightness" "Set to $CURRENT_BRIGHTNESS" 
+	notify "Room Brightness" "Set to $CURRENT_BRIGHTNESS"
 }
 
 set_temp_brightness() {
 	VALUE_BRIGHTNESS=$1
 
-	cat $BRIGHTNESS_TMP 2>/dev/null || echo 50 > $BRIGHTNESS_TMP 
+	cat $BRIGHTNESS_TMP 2>/dev/null || echo 50 > $BRIGHTNESS_TMP
 
-	CURRENT_BRIGHTNESS=$(cat $BRIGHTNESS_TMP 2>/dev/null) 
+	CURRENT_BRIGHTNESS=$(cat $BRIGHTNESS_TMP 2>/dev/null)
 	CURRENT_BRIGHTNESS=$((CURRENT_BRIGHTNESS+VALUE_BRIGHTNESS))
 
-	[ "$CURRENT_BRIGHTNESS" -gt 100 ] && CURRENT_BRIGHTNESS=100 
+	[ "$CURRENT_BRIGHTNESS" -gt 100 ] && CURRENT_BRIGHTNESS=100
 	[ "$CURRENT_BRIGHTNESS" -lt 1 ] && CURRENT_BRIGHTNESS=1
 
 	echo $CURRENT_BRIGHTNESS > $BRIGHTNESS_TMP
 
 	call_service yeelight.set_color_temp_scene --arguments entity_id="$ENTITY",kelvin=4000,brightness="$CURRENT_BRIGHTNESS"
 
-	notify "Room Brightness" "Set to $CURRENT_BRIGHTNESS" 
+	notify "Room Brightness" "Set to $CURRENT_BRIGHTNESS"
 }
 ## Refactor this mess ##
 
