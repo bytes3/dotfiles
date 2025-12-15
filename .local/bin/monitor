@@ -3,11 +3,21 @@
 VALUE="$2"
 
 set_value() {
-  ddcutil -d 1 setvcp $1 $VALUE
+  VALUE=${VALUE:-$2}
+
+  ddcutil -d 1 setvcp $1 "$VALUE"
+}
+
+fzf_prompt() {
+  result=$(printf '100\n90\n80\n70\n60\n50\n40\n30\n20\n10\n0'| fzf --prompt="Monitor brightness > ")
+
+  set_value 0x10 "$result"
+  set_value 0x12 "$result"
 }
 
 case $1 in
-  brightness) set_value 0x10;;
-  gamma) set_value 0x12;;
+  --brightness) set_value 0x10;;
+  --gamma) set_value 0x12;;
+  --fzf) fzf_prompt;;
 esac
 
