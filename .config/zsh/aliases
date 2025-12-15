@@ -36,6 +36,7 @@ alias top="btop"
 # Others
 alias e="echo" \
       g="grep --color=always" \
+      la="ls -la" \
       lah="ls -lah" \
       rmf="rm -fr" \
       clear="clear -x && neofetch" \
