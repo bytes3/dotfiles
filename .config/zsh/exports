@@ -1,8 +1,14 @@
 export PATH="$PATH:$HOME/.local/bin"
-export PATH=~/.npm-global/bin:$PATH
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH="$PATH:$HOME/.npm-global/bin"
+export PATH="$PATH:$HOME/.bun/bin"
+export PATH="$PATH:$HOME/.local/share/gem/ruby/3.4.0/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
+export PATH="$PATH:$HOME/go/bin"
+export PATH=$PATH:"$ANDROID_HOME/emulator"
+export PATH=$PATH:"$ANDROID_HOME/platform-tools"
+
+export GOBIN="$HOME/go/bin"
+export ANDROID_HOME="$HOME/Android/Sdk"
 
 # Editors
 export EDITOR="nvim"
@@ -47,3 +53,4 @@ ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_V
 
 export ROCM_PATH=/opt/rocm
 export HSA_OVERRIDE_GFX_VERSION=10.3.0
+

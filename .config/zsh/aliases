@@ -1,3 +1,10 @@
+if [[ $OSTYPE == darwin* ]]; then
+    alias ls='/bin/ls -G'
+else
+    alias ls="ls --color=auto"
+    alias open="xdg-open"
+fi
+
 # Dirs
 alias cdd="cd $HOME/Downloads/"
 
@@ -30,14 +37,12 @@ alias top="btop"
 alias e="echo" \
       g="grep --color=always" \
       lah="ls -lah" \
-      la="ls -la" \
       rmf="rm -fr" \
       clear="clear -x && neofetch" \
       chx="chmod +x" \
       sudo="sudo -v; sudo" \
       dfc="df -h . | g -A2 Avail" \
-      re="repeat" \
-      open="xdg-open"
+      re="repeat"
 
 # Tar
 alias atar="tar -acvf" \
@@ -63,9 +68,6 @@ alias dot="yadm"
 
 # shell
 alias rr=". ~/.zshrc"
-
-# pomo
-alias pomoc="pomo create -d 45m"
 
 # snapper
 alias snap="sudo snapper" \
