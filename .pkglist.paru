@@ -3,8 +3,14 @@ fd
 ripgrep
 zoxide
 neofetch
-clang 
+clang
+gcc
 make
 tmux
-asdf-vm
 zsh-antidote
+fzf
+neovim
+ruby
+rubygems
+nodejs-lts-krypton
+npm
