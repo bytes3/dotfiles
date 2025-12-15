@@ -9,6 +9,7 @@ export ZSH_CONFIG="$HOME/.config/zsh"
 . "$ZSH_CONFIG/exports"
 . "$ZSH_CONFIG/aliases"
 . "$ZSH_CONFIG/functions"
+. "$ZSH_CONFIG/autocomplete"
 
 if [ -z "$TMUX" ]; then
  if [ -z $NO_TMUX ]; then
