@@ -3,7 +3,7 @@
 if [ -n $(command -v pacman) ]; then
 	if [ -z $(command -v paru) ]; then
 		cd $(mktemp --directory) && \
-		clone https://aur.archlinux.org/paru-bin.git && \
+		git clone https://aur.archlinux.org/paru-bin.git && \
 		makepkg -si --noconfirm
 	fi
 
