@@ -13,6 +13,9 @@ Usage examples:
   markarchive list            # all groups
   markarchive list -g work    # one group
 
+  # Remove one or more paths from a group
+  markarchive remove -g work notes.txt src/
+
   # Archive a single group (output name auto if not given)
   markarchive archive -g work
 
@@ -124,6 +127,35 @@ def cmd_list(args: argparse.Namespace) -> int:
         for p in paths:
             print(" -", p)
         print()
+    return 0
+
+
+def cmd_remove(args: argparse.Namespace) -> int:
+    db = load_db()
+    groups = db["groups"]
+
+    group = args.group if args.group else DEFAULT_GROUP
+    group = group.strip() or DEFAULT_GROUP
+
+    if group not in groups:
+        print(f"Group '{group}' does not exist. Nothing to remove.")
+        return 0
+
+    group_paths = groups[group]
+    to_remove = [normalize_path(p) for p in args.paths]
+    removed = 0
+
+    for p in to_remove:
+        if p in group_paths:
+            group_paths.remove(p)
+            removed += 1
+
+    if removed == 0:
+        print("Nothing to remove (paths not found in group).")
+        return 0
+
+    save_db(db)
+    print(f"Removed {removed} item{'s' if removed != 1 else ''} from group '{group}'. DB saved at {DB_PATH}")
     return 0
 
 
@@ -245,6 +277,11 @@ def build_parser() -> argparse.ArgumentParser:
     pl.add_argument("-g", "--group", help="Group to list. If omitted, lists all groups.")
     pl.set_defaults(func=cmd_list)
 
+    prm = sub.add_parser("remove", help="Remove one or more paths from a group (default group is 'default').")
+    prm.add_argument("-g", "--group", help="Group name. If omitted or empty, uses 'default'.")
+    prm.add_argument("paths", nargs="+", help="File(s)/folder(s) to remove.")
+    prm.set_defaults(func=cmd_remove)
+
     pr = sub.add_parser("archive", help="Archive a group (or all groups) into a .tar.zst at medium compression.")
     pr.add_argument("-g", "--group", help="Group to archive. Omit to archive ALL groups together.")
     pr.add_argument("-o", "--output", help="Output file path (e.g., out.tar.zst). Defaults to '<group>-<timestamp>.tar.zst'.")
@@ -261,4 +298,3 @@ def main(argv: Optional[List[str]] = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
