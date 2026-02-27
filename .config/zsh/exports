@@ -20,7 +20,7 @@ export ELECTRON_OZONE_PLATFORM_HINT=wayland
 export TERM="tmux-256color"
 
 export BROWSER="brave"
-export TERMINAL="kitty"
+export TERMINAL="wezterm"
 
 export PHONE_IP="192.168.1.128"
 export PI_IP="192.168.1.235"
