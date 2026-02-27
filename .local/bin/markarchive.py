@@ -16,10 +16,10 @@ Usage examples:
   # Remove one or more paths from a group
   markarchive remove -g work notes.txt src/
 
-  # Archive a single group (output name auto if not given)
+  # Archive a single group (default: ~/markarchive/<group>.tar.zst)
   markarchive archive -g work
 
-  # Archive ALL groups together
+  # Archive each group separately into ~/markarchive/<group>.tar.zst
   markarchive archive
 
 Notes:
@@ -32,9 +32,9 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 import tarfile
-import time
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -45,6 +45,7 @@ ZSTD_MEDIUM_LEVEL = 9
 
 # Database path (can override via env)
 DB_PATH = Path(os.environ.get("MARKARCHIVE_DB", str(Path.home() / ".markarchive.json")))
+ARCHIVE_DIR = Path.home() / "markarchive"
 
 
 # ---------- DB helpers ----------
@@ -73,6 +74,25 @@ def save_db(data: Dict[str, List[str]], path: Path = DB_PATH) -> None:
 
 def normalize_path(p: str) -> str:
     return str(Path(p).expanduser().resolve())
+
+
+def make_unique_archive_name(original_name: str, used_names: set[str]) -> str:
+    if original_name not in used_names:
+        used_names.add(original_name)
+        return original_name
+
+    p = Path(original_name)
+    stem = p.stem
+    suffix = p.suffix
+
+    candidate = f"{stem}-duplicate{suffix}"
+    n = 2
+    while candidate in used_names:
+        candidate = f"{stem}-duplicate{n}{suffix}"
+        n += 1
+
+    used_names.add(candidate)
+    return candidate
 
 
 # ---------- Commands ----------
@@ -168,6 +188,7 @@ def stream_tar_to_zstd(paths: List[str], out_file: Path, level: int = ZSTD_MEDIU
     try:
         import zstandard as zstd  # type: ignore
 
+        used_names: set[str] = set()
         with out_file.open("wb") as fout:
             cctx = zstd.ZstdCompressor(level=level)
             with cctx.stream_writer(fout) as zf:
@@ -175,11 +196,17 @@ def stream_tar_to_zstd(paths: List[str], out_file: Path, level: int = ZSTD_MEDIU
                 with tarfile.open(fileobj=zf, mode="w|") as tf:
                     for path in paths:
                         p = Path(path)
-                        print(f"Archiving: %f", path)
+                        print(f"Archiving: {path}")
                         if not p.exists():
                             print(f"Warning: path does not exist and will be skipped: {path}", file=sys.stderr)
                             continue
-                        tf.add(path, arcname=p.name, recursive=True)
+                        arcname = make_unique_archive_name(p.name, used_names)
+                        if arcname != p.name:
+                            print(
+                                f"Warning: duplicate archive name '{p.name}' renamed to '{arcname}'.",
+                                file=sys.stderr,
+                            )
+                        tf.add(path, arcname=arcname, recursive=True)
     except ModuleNotFoundError:
         # Fallback: create a temporary .tar then pipe to `zstd`
         import shutil
@@ -194,13 +221,20 @@ def stream_tar_to_zstd(paths: List[str], out_file: Path, level: int = ZSTD_MEDIU
         with NamedTemporaryFile(prefix="markarchive-", suffix=".tar", delete=False) as ntf:
             tar_path = Path(ntf.name)
         try:
+            used_names: set[str] = set()
             with tarfile.open(tar_path, mode="w") as tf:
                 for path in paths:
                     p = Path(path)
                     if not p.exists():
                         print(f"Warning: path does not exist and will be skipped: {path}", file=sys.stderr)
                         continue
-                    tf.add(path, arcname=p.name, recursive=True)
+                    arcname = make_unique_archive_name(p.name, used_names)
+                    if arcname != p.name:
+                        print(
+                            f"Warning: duplicate archive name '{p.name}' renamed to '{arcname}'.",
+                            file=sys.stderr,
+                        )
+                    tf.add(path, arcname=arcname, recursive=True)
 
             # Compress with zstd CLI at given level
             # zstd levels are given as -# (e.g. -9)
@@ -213,30 +247,12 @@ def stream_tar_to_zstd(paths: List[str], out_file: Path, level: int = ZSTD_MEDIU
                 pass
 
 
-def cmd_archive(args: argparse.Namespace) -> int:
-    db = load_db()
-    groups = db["groups"]
+def safe_group_filename(group: str) -> str:
+    name = re.sub(r"[^A-Za-z0-9._-]+", "_", group).strip("._-")
+    return name or DEFAULT_GROUP
 
-    # Select which paths to archive
-    if args.group:
-        g = args.group.strip() or DEFAULT_GROUP
-        paths = groups.get(g, [])
-        if not paths:
-            print(f"No items found in group '{g}'. Nothing to archive.")
-            return 0
-        label = g
-    else:
-        # All groups combined
-        # Flatten while preserving order (group order not guaranteed; sort for determinism)
-        label = "all"
-        paths = []
-        for g in sorted(groups.keys()):
-            paths.extend(groups[g])
-        if not paths:
-            print("No items recorded in any group. Nothing to archive.")
-            return 0
 
-    # Filter out nonexistent with a warning (archive only existing)
+def archive_group(group: str, paths: List[str], outpath: Path) -> int:
     existing = []
     for p in paths:
         if Path(p).exists():
@@ -245,22 +261,55 @@ def cmd_archive(args: argparse.Namespace) -> int:
             print(f"Warning: path does not exist and will be skipped: {p}", file=sys.stderr)
 
     if not existing:
-        print("After filtering missing paths, nothing remains to archive.")
+        print(f"Group '{group}': after filtering missing paths, nothing remains to archive.")
         return 0
 
-    # Decide output name
-    ts = time.strftime("%Y%m%d-%H%M%S")
-    outname = args.output or f"{label}-{ts}.tar.zst"
-    outpath = Path(outname).expanduser().resolve()
+    outpath.parent.mkdir(parents=True, exist_ok=True)
 
     try:
         stream_tar_to_zstd(existing, outpath, level=ZSTD_MEDIUM_LEVEL)
     except Exception as e:
-        print(f"Error during archiving: {e}", file=sys.stderr)
+        print(f"Error archiving group '{group}': {e}", file=sys.stderr)
         return 1
 
-    print(f"Archive created: {outpath}")
+    print(f"Archive created for group '{group}': {outpath}")
     return 0
+
+
+def cmd_archive(args: argparse.Namespace) -> int:
+    db = load_db()
+    groups = db["groups"]
+
+    if args.group:
+        g = args.group.strip() or DEFAULT_GROUP
+        paths = groups.get(g, [])
+        if not paths:
+            print(f"No items found in group '{g}'. Nothing to archive.")
+            return 0
+        default_out = (ARCHIVE_DIR / f"{safe_group_filename(g)}.tar.zst").expanduser().resolve()
+        outpath = Path(args.output).expanduser().resolve() if args.output else default_out
+        return archive_group(g, paths, outpath)
+
+    if args.output:
+        print("Error: -o/--output can only be used with -g/--group.", file=sys.stderr)
+        return 2
+
+    if not groups:
+        print("No groups yet. Use `markarchive add <path>` to begin.")
+        return 0
+
+    failed = False
+    for g in sorted(groups.keys()):
+        paths = groups[g]
+        if not paths:
+            print(f"Group '{g}' has no items. Skipping.")
+            continue
+        outpath = (ARCHIVE_DIR / f"{safe_group_filename(g)}.tar.zst").expanduser().resolve()
+        rc = archive_group(g, paths, outpath)
+        if rc != 0:
+            failed = True
+
+    return 1 if failed else 0
 
 
 # ---------- CLI ----------
@@ -282,9 +331,9 @@ def build_parser() -> argparse.ArgumentParser:
     prm.add_argument("paths", nargs="+", help="File(s)/folder(s) to remove.")
     prm.set_defaults(func=cmd_remove)
 
-    pr = sub.add_parser("archive", help="Archive a group (or all groups) into a .tar.zst at medium compression.")
-    pr.add_argument("-g", "--group", help="Group to archive. Omit to archive ALL groups together.")
-    pr.add_argument("-o", "--output", help="Output file path (e.g., out.tar.zst). Defaults to '<group>-<timestamp>.tar.zst'.")
+    pr = sub.add_parser("archive", help="Archive group(s) into .tar.zst at medium compression.")
+    pr.add_argument("-g", "--group", help="Group to archive. Omit to archive each group separately.")
+    pr.add_argument("-o", "--output", help="Custom output file path for single-group archive. Requires -g/--group.")
     pr.set_defaults(func=cmd_archive)
 
     return p
