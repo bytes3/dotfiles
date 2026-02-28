@@ -1,18 +1,3 @@
-bat
-fd
-ripgrep
-zoxide
-neofetch
-clang
-gcc
-make
-tmux
 zsh-antidote
-fzf
-neovim
-ruby
-rubygems
-nodejs-lts-krypton
-npm
 wezterm-nightly-bin
 

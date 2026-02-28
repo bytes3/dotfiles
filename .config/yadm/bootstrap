@@ -7,10 +7,11 @@ if [ -n $(command -v pacman) ]; then
 		makepkg -si --noconfirm
 	fi
 
-	paru -S - <"$HOME/.pkglist.paru"
+	paru -S - <"$HOME/.pkglist.pacman" --noconfirm
+	paru -S - <"$HOME/.pkglist.paru" --noconfirm
 fi
 
-mkdir ~/.config/tmux/plugins
+mkdir -p ~/.config/tmux/plugins
 git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 
 cat << EOF
