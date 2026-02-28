@@ -1,6 +1,7 @@
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.npm-global/bin"
 export PATH="$PATH:$HOME/.bun/bin"
+export PATH="$PATH:$HOME/Applications"
 export PATH="$PATH:$HOME/.local/share/gem/ruby/3.4.0/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/go/bin"
@@ -25,8 +26,6 @@ export TERMINAL="wezterm"
 export PHONE_IP="192.168.1.128"
 export PI_IP="192.168.1.235"
 
-export PIP_BREAK_SYSTEM_PACKAGES=1
-
 if [[ "$(uname -s)" == "Linux" ]]; then
   # Enable Wayland support for different applications
   if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
@@ -47,9 +46,6 @@ if [[ "$(uname -s)" == "Linux" ]]; then
  export XDG_CONFIG_DIRS=/etc/xdg
  export LOCALE_ARCHIVE="/usr/lib/locale/locale-archive"
 fi
-
-# jetbrain stuff
-___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
 export ROCM_PATH=/opt/rocm
 export HSA_OVERRIDE_GFX_VERSION=10.3.0
