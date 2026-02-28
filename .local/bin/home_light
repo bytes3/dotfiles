@@ -4,9 +4,11 @@
 
 killall hass-cli
 
-# TODO: Move this to KWallet
-# Use this command to query the password: kwallet-query main -f env -r home_assistant_api
-export HASS_TOKEN="$(cat $HOME/.config/api_keys/home_assistant)"
+# Add Home Assistant api key to KDEWallet:
+#   - New folder: "home_assistant"
+#   - "home_assistant" -> Passwords: "home_light"
+#   - Show content: <pate-your-api-key>
+export HASS_TOKEN="$(kwallet-query kdewallet -f home_assistant -r home_light)"
 export HASS_SERVER="http://$PI_IP:8123"
 
 ENTITY="light.yeelight_color4_0x15603376"
