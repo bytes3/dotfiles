@@ -1,6 +1,5 @@
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
-local theme = require("theme")
 
 local act = wezterm.action
 
@@ -15,7 +14,7 @@ config.initial_rows = 35
 
 config.font_size = 12
 config.font = wezterm.font("operatormono")
-config.colors = theme.colors
+-- config.colors = theme.colors
 
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 
@@ -25,6 +24,43 @@ config.enable_tab_bar = false
 
 config.keys = {
 	{ key = "v", mods = "ALT", action = act.PasteFrom("Clipboard") },
+}
+
+config.force_reverse_video_cursor = true
+config.colors = {
+	foreground = "#c5c9c5",
+	background = "#181616",
+
+	cursor_bg = "#C8C093",
+	cursor_fg = "#C8C093",
+	cursor_border = "#C8C093",
+
+	selection_fg = "#C8C093",
+	selection_bg = "#2D4F67",
+
+	scrollbar_thumb = "#16161D",
+	split = "#16161D",
+
+	ansi = {
+		"#0D0C0C",
+		"#C4746E",
+		"#8A9A7B",
+		"#C4B28A",
+		"#8BA4B0",
+		"#A292A3",
+		"#8EA4A2",
+		"#C8C093",
+	},
+	brights = {
+		"#A6A69C",
+		"#E46876",
+		"#87A987",
+		"#E6C384",
+		"#7FB4CA",
+		"#938AA9",
+		"#7AA89F",
+		"#C5C9C5",
+	},
 }
 
 return config
