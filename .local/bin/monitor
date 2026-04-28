@@ -2,6 +2,25 @@
 
 VALUE="$2"
 
+print_help() {
+  cat <<'EOF'
+Usage: monitor [OPTION] [VALUE]
+
+Control monitor brightness and gamma with ddcutil.
+
+Options:
+  --brightness VALUE   Set brightness (VCP 0x10)
+  --gamma VALUE        Set gamma (VCP 0x12)
+  --fzf                Pick a value interactively with fzf
+  -h, --help           Show this help message
+
+Examples:
+  monitor --brightness 80
+  monitor --gamma 70
+  monitor --fzf
+EOF
+}
+
 set_value() {
   VALUE=${VALUE:-$2}
 
@@ -19,5 +38,10 @@ case $1 in
   --brightness) set_value 0x10;;
   --gamma) set_value 0x12;;
   --fzf) fzf_prompt;;
+  -h|--help|'') print_help;;
+  *)
+    echo "Unknown option: $1" >&2
+    print_help
+    exit 1
+    ;;
 esac
-

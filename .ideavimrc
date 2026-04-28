@@ -133,6 +133,9 @@ nmap ZQ :wq!<CR>
 inoremap <C-v> <esc>"+pa
 vnoremap <C-c> "+y
 
+nnoremap <A-p> :action ParameterInfo<CR>
+inoremap <C-y> :action EditorChooseLookupItem<CR>
+
 function! cancelSearchHighlightAndCaretMode()
   :action EditorToggleColumnMode
   :noh

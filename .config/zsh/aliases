@@ -28,7 +28,8 @@ alias sd="sudo systemctl" \
 # Programs
 alias duch="du -chd 1" \
       g="rg --hidden --no-ignore" \
-      fd="fd --hidden --no-ignore"
+      fd="fd --hidden --no-ignore" \
+      ffp="ffmpeg -f pulse -i default.monitor "$HOME/Music/recording-$(date +%s).wav""
 
 # TUI
 alias top="btop"
@@ -45,9 +46,10 @@ alias e="echo" \
       dfc="df -h . | g -A2 Avail" \
       re="repeat"
 
-# Tar
+# Archive
 alias atar="tar -acvf" \
-      tf="tar -tf"
+      tf="tar -tf" \
+      7za="7z a -mx=5 -m0=lzma2"
 
 # vim
 alias v="nvim" \
@@ -79,3 +81,7 @@ alias adbw='adb connect $PHONE_IP:$(nmap $PHONE_IP -p 37000-44000 | awk "/\/tcp/
 
 # QMK
 alias vq="cd ~/Dev/by-others/qmk_firmware && v keyboards/keychron/k7_max/ansi/rgb/keymaps/default/keymap.c"
+
+# libvirt
+alias start_win11="sudo virsh start Windows11"
+
