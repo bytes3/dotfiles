@@ -1,0 +1,8 @@
+binds {
+  Mod+Shift+V hotkey-overlay-title="Clipboard Manager" {
+    spawn "dms" "ipc" "call" "clipboard" "toggle";
+  }
+  Mod+D hotkey-overlay-title="Application Launcher" {
+    spawn "dms" "ipc" "call" "spotlight" "toggle";
+  }
+}
